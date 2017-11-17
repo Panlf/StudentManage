@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+    "http://struts.apache.org/dtds/struts-2.5.dtd">
+    
+    <struts>
+    	<!-- 开发模式(修改struts.xml不用重启服务器) -->
+    	<constant name="struts.devMpde" value="true" />
+    	<package name="myJsonPackage" extends="json-default" namespace="/">
+    		<global-allowed-methods>regex:.*</global-allowed-methods>
+    		<action name="student_*" class="com.plf.manage.action.LoginAction" method="{1}">
+	            <result name="success" type="json"><!-- 返回的数据类型为json -->
+	                <param name="root">data</param>
+	            </result>
+	            <result name="success">
+	            	/index.jsp
+	            </result>
+        	</action>
+    	</package>
+    	<!--<package name="myPackage" extends="struts-default" namespace="/">
+    		<global-allowed-methods>regex:.*</global-allowed-methods>
+    		<action name="login">
+	            <result>
+	                /index.jsp
+	            </result>
+        	</action>
+    	</package>  -->
+    </struts>
