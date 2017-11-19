@@ -1,15 +1,62 @@
 package com.plf.manage.domain;
 
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Table;
+
 /**
  * 学生类
  * @author plf 2017年11月17日下午9:16:30
  *
  */
+@Entity
+@Table(name="studnet")
 public class Student {
-	private Integer id;
-	private String realname;
-	private String username;
-	private String password;
+	
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer id;//主键ID
+	
+	@Column(name="number",nullable=false)
+	private String number;//学号
+	
+	@Column(name="realname",nullable=false)
+	private String realname;//真名
+	
+	@Column(name="username",nullable=false)
+	private String username;//网站用户名
+	
+	@Column(name="password",nullable=false)
+	private String password;//密码
+	
+	@Column(name="sex",nullable=false)
+	private int sex;//0 男生 1女生 2不详
+	
+	@Column(name="birthday",nullable=false)
+	private Date birthday;//生日
+	
+	
+	public String getNumber() {
+		return number;
+	}
+	public void setNumber(String number) {
+		this.number = number;
+	}
+	public int getSex() {
+		return sex;
+	}
+	public void setSex(int sex) {
+		this.sex = sex;
+	}
+	public Date getBirthday() {
+		return birthday;
+	}
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
 	public Integer getId() {
 		return id;
 	}

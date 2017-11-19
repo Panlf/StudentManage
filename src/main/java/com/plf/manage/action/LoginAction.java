@@ -3,8 +3,7 @@ package com.plf.manage.action;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import com.plf.manage.domain.Student;
@@ -17,7 +16,14 @@ import com.plf.manage.domain.Student;
 public class LoginAction extends ActionSupport implements ModelDriven<Student> {
 
 	private static final long serialVersionUID = 1919934404750494992L;
+	
+	
 	private Student student=new Student();
+	
+	public void setStudent(Student student) {
+		this.student = student;
+	}
+
 	public Student getModel() {
 		// TODO Auto-generated method stub
 		return student;
@@ -33,16 +39,15 @@ public class LoginAction extends ActionSupport implements ModelDriven<Student> {
 	}
 	
 	public String login(){
-		Student stu=new Student();
-		stu.setUsername("PCQ");
-		stu.setPassword("19950927");
-		JSON jsonData=(JSON) JSONObject.toJSON(stu);
-		data.put("data", jsonData);
-		return SUCCESS;
+		if(student.getUsername().equals("pcq") && student.getPassword().equals("0927")){
+			ActionContext.getContext().getSession().put("existUser", "pcq");
+			return SUCCESS;
+		}
+		return INPUT;
 	}
 	
 	public String goIndex(){
-		return SUCCESS;
+		return "index";
 	}
 
 }

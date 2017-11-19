@@ -7,13 +7,28 @@
     	<!-- 开发模式(修改struts.xml不用重启服务器) -->
     	<constant name="struts.devMpde" value="true" />
     	<package name="myJsonPackage" extends="json-default" namespace="/">
+    		
+    		<interceptors>
+    			<interceptor name="loginInterceptor" class="com.plf.manage.interceptor.MyLoginInterceptor"></interceptor>
+    			<interceptor-stack name="myStack">
+	    			<interceptor-ref name="loginInterceptor"></interceptor-ref>  
+	                <interceptor-ref name="defaultStack"></interceptor-ref>  
+                </interceptor-stack>
+    		</interceptors>
+    		
+    		<default-interceptor-ref name="myStack"></default-interceptor-ref>  
+    		
     		<global-allowed-methods>regex:.*</global-allowed-methods>
+    		
     		<action name="student_*" class="com.plf.manage.action.LoginAction" method="{1}">
-	            <result name="success" type="json"><!-- 返回的数据类型为json -->
+	            <!-- <result name="success" type="json">
 	                <param name="root">data</param>
-	            </result>
+	            </result> -->
 	            <result name="success">
 	            	/index.jsp
+	            </result>
+	            <result name="input">
+	            	/login.jsp
 	            </result>
         	</action>
     	</package>
