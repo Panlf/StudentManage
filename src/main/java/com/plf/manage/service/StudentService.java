@@ -6,5 +6,5 @@ package com.plf.manage.service;
  *
  */
 public interface StudentService {
-	
+	public boolean login(String username,String password);
 }

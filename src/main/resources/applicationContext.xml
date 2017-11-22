@@ -17,6 +17,8 @@
     http://www.springframework.org/schema/util 
     http://www.springframework.org/schema/util/spring-util-4.0.xsd">
     
+
+    
     <!-- Spring注解解析器 -->
     <context:component-scan base-package="com.plf.manage" />
     
@@ -46,12 +48,12 @@
 	     <property name="poolPreparedStatements" value="true" />
 	     <property name="maxOpenPreparedStatements" value="20" />
 	
-	     <property name="asyncInit" value="true" />
+	    
 	</bean>
 	
 	<!-- Hibernate -->
     <bean id="sessionFactory"
-        class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" scope="prototype">
+        class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
         
         <!-- 注入连接池  -->
         <property name="dataSource" ref="dataSource" />
@@ -64,14 +66,16 @@
   				<prop key="hibernate.show_sql">true</prop>
   				<prop key="hibernate.format_sql">true</prop>
   				<prop key="hibernate.hbm2ddl.auto">update</prop>
+  				<prop key="hibernate.temp.use_jdbc_metadata_defaults">false</prop>
   			</props>
   		</property>
   		
-		 <property name="mappingResources">
-	       	 <list>
-	             <value>com.plf.manage.domain</value>
-	       	 </list>
-   	 	 </property>
+		 <!-- 自动扫描注解方式配置的hibernate类文件 -->
+		<property name="packagesToScan">
+			<list>
+				<value>com.plf.manage.domain</value>
+			</list>
+		</property>
     </bean>
     
     <!-- 配置事务 -->
@@ -94,5 +98,5 @@
 	     <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>  
     </aop:config>  
     
-    
+    <tx:annotation-driven transaction-manager="transactionManager" />
     </beans>
