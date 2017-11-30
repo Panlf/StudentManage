@@ -6,4 +6,6 @@ public interface StudentDao {
 
 	Student findByUnAndPw(String username, String password);
 
+	boolean save(Student student);
+
 }

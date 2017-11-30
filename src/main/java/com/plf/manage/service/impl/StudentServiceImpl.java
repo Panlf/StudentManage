@@ -28,5 +28,12 @@ public class StudentServiceImpl implements StudentService{
 		}
 		return true;
 	}
+	@Override
+	public boolean save(Student student) {
+		if(studentDao.save(student)){
+			return true;
+		}
+		return false;
+	}
 
 }

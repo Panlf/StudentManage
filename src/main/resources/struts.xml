@@ -26,6 +26,12 @@
 	            <result name="success">
 	            	/index.jsp
 	            </result>
+	            <result name="registered">
+	            	/login.jsp
+	            </result>
+	            <result name="register">
+	            	/register.jsp
+	            </result>
 	            <result name="input">
 	            	/login.jsp
 	            </result>

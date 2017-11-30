@@ -1,5 +1,7 @@
 package com.plf.manage.dao.impl;
 
+import java.io.Serializable;
+
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -20,6 +22,16 @@ public class StudentDaoImpl implements StudentDao{
 		 Student result= (Student)sessionFactory.openSession().createQuery("from Student where username=:username and password=:password")
 		.setParameter("username", username).setParameter("password", password).uniqueResult();	
 		return result;
+	}
+
+
+	@Override
+	public boolean save(Student student) {
+		Serializable i=sessionFactory.getCurrentSession().save(student);
+		if(i==null){
+			return false;
+		}
+		return true;
 	}
 
 }

@@ -48,6 +48,7 @@ public class LoginAction extends ActionSupport implements ModelDriven<Student> {
 		this.data = data;
 	}
 	
+	//登录操作
 	public String login(){
 		if(studentService.login(student.getUsername(), student.getPassword())){
 			ActionContext.getContext().getSession().put("existUser", student.getUsername());
@@ -56,6 +57,13 @@ public class LoginAction extends ActionSupport implements ModelDriven<Student> {
 		return INPUT;
 	}
 	
+	//注册操作
+	public String save(){
+		if(studentService.save(student)){
+			return "registered";
+		}
+		return "register";
+	}
 	public String goIndex(){
 		return "index";
 	}
