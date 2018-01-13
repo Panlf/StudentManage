@@ -8,10 +8,10 @@
     	<package name="myJsonPackage" extends="json-default" namespace="/">
     		
     		<interceptors>
-    			<interceptor name="loginInterceptor" class="com.plf.manage.interceptor.MyLoginInterceptor"></interceptor>
+    			<interceptor name="loginInterceptor" class="com.plf.manage.interceptor.MyLoginInterceptor"/>
     			<interceptor-stack name="myStack">
-	    			<interceptor-ref name="loginInterceptor"></interceptor-ref>  
-	                <interceptor-ref name="defaultStack"></interceptor-ref>  
+	    			<interceptor-ref name="loginInterceptor"/>  
+	                <interceptor-ref name="defaultStack"/>  
                 </interceptor-stack>
     		</interceptors>
     		
