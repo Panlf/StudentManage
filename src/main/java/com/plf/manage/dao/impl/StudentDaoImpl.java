@@ -1,6 +1,7 @@
 package com.plf.manage.dao.impl;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,7 @@ public class StudentDaoImpl implements StudentDao{
 	
 	
 	public Student findByUnAndPw(String username, String password) {
-		// TODO Auto-generated method stub
-		 Student result= (Student)sessionFactory.openSession().createQuery("from Student where username=:username and password=:password")
+		 Student result= (Student)sessionFactory.getCurrentSession().createQuery("from Student where username=:username and password=:password")
 		.setParameter("username", username).setParameter("password", password).uniqueResult();	
 		return result;
 	}
@@ -32,6 +32,13 @@ public class StudentDaoImpl implements StudentDao{
 			return false;
 		}
 		return true;
+	}
+
+
+	@Override
+	public List<Student> getStudentList(Integer teacherId) {
+		return sessionFactory.getCurrentSession().createNativeQuery("select * from student"
+				+ " where classType in (select classType from teacher where id = "+ teacherId+")", Student.class).getResultList();
 	}
 
 }

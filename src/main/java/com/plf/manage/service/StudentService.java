@@ -1,5 +1,7 @@
 package com.plf.manage.service;
 
+import java.util.List;
+
 import com.plf.manage.domain.Student;
 
 /**
@@ -8,7 +10,9 @@ import com.plf.manage.domain.Student;
  *
  */
 public interface StudentService {
-	public boolean login(String username,String password);
+	public Student login(String username,String password);
 
 	public boolean save(Student student);
+	
+	public List<Student> getStudentList(Integer teacherId);
 }

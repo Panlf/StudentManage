@@ -3,6 +3,7 @@ package com.plf.manage.action;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -33,8 +34,16 @@ public class LoginAction extends ActionSupport implements ModelDriven<Student> {
 	}
 
 	public Student getModel() {
-		// TODO Auto-generated method stub
 		return student;
+	}
+	private Integer teacherId;
+	
+	public Integer getTeacherId() {
+		return teacherId;
+	}
+
+	public void setTeacherId(Integer teacherId) {
+		this.teacherId = teacherId;
 	}
 	@Autowired
 	private StudentService studentService;
@@ -50,22 +59,37 @@ public class LoginAction extends ActionSupport implements ModelDriven<Student> {
 	
 	//登录操作
 	public String login(){
-		if(studentService.login(student.getUsername(), student.getPassword())){
-			ActionContext.getContext().getSession().put("existUser", student.getUsername());
-			return SUCCESS;
+		Student s =studentService.login(student.getUsername(), student.getPassword());
+		if(s!=null){
+			ActionContext.getContext().getSession().put("existUser", s.getRealname());
+			ServletActionContext.getRequest().getSession().setAttribute("existUserType", "0");
+			ServletActionContext.getRequest().getSession().setAttribute("existUserId", s.getId());
+			data.put("code",1);
+		}else{
+			data.put("code",0);
 		}
-		return INPUT;
+		return SUCCESS;
 	}
 	
 	//注册操作
 	public String save(){
 		if(studentService.save(student)){
-			return "registered";
+			data.put("code",1);
+			return SUCCESS;
+		}else{
+			data.put("code",0);
+			return SUCCESS;
 		}
-		return "register";
 	}
-	public String goIndex(){
-		return "index";
+	
+	public String loginout(){
+		ServletActionContext.getRequest().getSession().invalidate();
+		return "quit";
+	}
+	
+	public String list(){
+		data.put("result",studentService.getStudentList(teacherId));
+		return SUCCESS;
 	}
 
 }

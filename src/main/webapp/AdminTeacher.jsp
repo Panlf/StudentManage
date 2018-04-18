@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
-      <%@ taglib uri="/struts-tags" prefix="s"%>  
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -48,20 +46,9 @@
             
             <div class="top-menu">
             	<ul class="nav pull-right top-menu">
-                    <li><a class="logout" href="${pageContext.request.contextPath }/student_loginout">登出</a></li>
+                    <li><a class="logout" href="${pageContext.request.contextPath }/manage_loginout">登出</a></li>
             	</ul>
             </div>
-            <s:if test="#session.existUserId != null">
-           		<input type="hidden" id="userid" name="userid" value="<s:property value="#session.existUserId"/>">
-           	</s:if>
-           	
-           	<s:if test="#session.existUserType != null">
-           		<input type="hidden" id="userType" name="userType" value="<s:property value="#session.existUserType"/>">
-           	</s:if>
-           	
-           	<s:if test="#session.teacherType != null">
-           		<input type="hidden" id="teacherType" name="teacherType" value="<s:property value="#session.teacherType"/>">
-           	</s:if>
         </header>
       <!--header end-->
       
@@ -72,23 +59,20 @@
       <aside>
           <div id="sidebar"  class="nav-collapse ">
               <!-- sidebar menu start-->
+              
               <ul class="sidebar-menu" id="nav-accordion">
-              	<s:if test="#session.existUserType == 1">
-                  <li class="mt">
-                      <a class="active" href="index.jsp">
+                 <li class="mt">
+                      <a href="AdminClass.jsp">
                           <i class="fa fa-book"></i>
-                          <span>分数修改</span>
+                          <span>课程名单</span>
                       </a>
                   </li>
-                </s:if>
-                <s:if test="#session.teacherType == 1">
                   <li class="sub-menu">
-                      <a href="AllScore.jsp">
+                      <a class="active" href="AdminTeacher.jsp">
                           <i class="fa fa-user"></i>
-                          <span>分数查看</span>
+                          <span>教师名单</span>
                       </a>
                   </li>
-               	</s:if>
               </ul>
               <!-- sidebar menu end-->
           </div>
@@ -101,25 +85,46 @@
       <!--main content start-->
       <section id="main-content">
            <section class="wrapper">
-          	<h3><i class="fa fa-angle-right"></i> 分数单</h3>
+          	<h3><i class="fa fa-angle-right"></i> 老师名单</h3>
           	
-          	 	
+          	 	<div class="row">
+          	 		<div class="col-md-3">
+          	 			<button class="btn btn-info btn-md" onclick="openModel();"><i class="fa fa-check"></i></button>
+          	 		</div>
+          	 		<div class="col-md-6  col-md-offset-3">
+  						 <div class="col-lg-4">
+          	 				<input type="text" placeholder="请输入真名" class="form-control" id="sosoname">
+          	 			</div>
+          	 			<button class="btn btn-info btn-md" onclick="soso();">搜索</button>
+          	 		</div>
+          	 	</div>
           	 	<hr>
 				<div class="row">
 	                  <div class="col-md-12">
 	                  	  <div class="content-panel">
-		                      <table class="table" id="dataTable">
+		                      <table class="table" id="teachertbale">
 		                          <thead>
 		                          <tr>
-		                              <th>名单</th>
-		                              <th>科目</th>
-		                              <th>分数</th>
+		                              <th>用户名</th>
+		                              <th>密码</th>
+		                              <th>真名</th>
+		                              <th>课程</th>
+		                              <th>年级</th>
+		                              <th>类别</th>
+		                              <th>状态</th>
 		                              <th>操作</th>
 		                          </tr>
 		                          </thead>
 		                          <tbody>
 		                          </tbody>
 		                      </table>
+		                      <div class="col-md-4 col-md-offset-8">
+		                      	<input type="hidden" id="nowpage">
+								<ul class="pager">
+								  <li id="prev"><a href="javascript:void(0)" onclick="getPrevData()">&laquo; Prev</a></li>
+								  <li id="next"><a href="javascript:void(0)" onclick="getNextData()">Next &raquo;</a></li>
+								</ul>
+							  </div>
 	                  	  </div><!--/content-panel -->
 	                  </div><!-- /col-md-12 -->
 	                  </div>
@@ -137,33 +142,62 @@
 						&times;
 					</button>
 					<h4 class="modal-title" id="myModalLabel">
-						分数操作
+						用户操作
 					</h4>
 				</div>
 				<div class="modal-body">
 					<form role="form" id="formdata">
 					  <div class="form-group">
-						<input type="hidden" name="id" value="0">
+						<input type="hidden" name="id" value="">
 					  </div>
 					  <div class="form-group">
-						<input type="hidden" name="studentId" value="0">
+					    <label for="name">用户名</label>
+					    <input type="text" class="form-control" name="username">
 					  </div>
 					  <div class="form-group">
-					    <label for="teacherId">科目</label>
-					    <select class="form-control" name="teacherId">
+					    <label for="name">密码</label>
+					    <input type="text" class="form-control" name="password">
+					  </div>
+					  <div class="form-group">
+					    <label for="name">真名</label>
+					    <input type="text" class="form-control" name="realname">
+					  </div>
+					  <div class="form-group">
+					    <label for="classNameId">课程</label>
+					    <select class="form-control" name="classNameId">
 					    </select>
 					  </div>
 					  <div class="form-group">
-					    <label for="score">分数</label>
-					    <input type="text" class="form-control" name="score">
+					    <label for="classType">年级</label>
+					    <select class="form-control" name="classType">
+					      <option value="1">一年级</option>
+					      <option value="2">二年级 </option>
+					      <option value="3">三年级</option>
+					      <option value="4">四年级</option>
+					      <option value="5">五年级</option>
+					      <option value="6">六年级</option>
+					    </select>
 					  </div>
-					  
+					  <div class="form-group">
+					    <label for="teacherType">类别</label>
+					    <select class="form-control" name="teacherType">
+					      <option value="0">普通教师</option>
+					      <option value="1">班主任 </option>
+					    </select>
+					  </div>
+					  <div class="form-group">
+					    <label for="status">状态</label>
+					    <select class="form-control" name="status">
+					      <option value="0">正常 </option>
+					      <option value="1">异常</option>
+					    </select>
+					  </div>
 					</form>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-info" data-dismiss="modal">取消
 					</button>
-					<button type="button" class="btn btn-success" onclick="updateScore();">确认
+					<button type="button" class="btn btn-success" onclick="updateTeacher();">确认
 					</button>
 				</div>
 			</div><!-- /.modal-content -->
@@ -192,113 +226,115 @@
 	
 	<script type="text/javascript">
 		$(function(){
-			var usersid = $("#userid").val();
-			var userType = $("#userType").val();
-			if(usersid==null || usersid==undefined || userType==0){
-				window.location.href="${pageContext.request.contextPath }/login.jsp";
-			}
-			
-			getData();
+			getData(1,null);
+			getClassName();
 		});
 		
 		function openModel(){
 			$("#myModal").modal('show');
 		}
 		
-		function getData(){
-			//清空
-			$("#dataTable tbody").html("");
-			var usersid = $("#userid").val();
+		function getClassName(){
 			$.ajax({
 				type:'get',
-				url:'${pageContext.request.contextPath }/grade_list',
+				url:'${pageContext.request.contextPath }/classname_allNames',
+				dataType:'json',
+				data:null,
+				async:false,
+				error:function(result){
+					alert(result);
+				},
+				success:function(result){
+					var rs = result.result;
+					var ls="";
+					for(var i=0;i<rs.length;i++){
+						ls += '<option value="'+rs[i].id+'">'+rs[i].className+'</option>';
+					}
+					$("#myModal form select[name='classNameId']").append(ls);
+				}
+			});
+		}
+			
+		function getData(num,name){
+			//防止对新的查询产生影响
+			//清空
+			$("#teachertbale tbody").html("");
+			//解锁
+			$("#prev").removeClass("disabled");
+			$("#next").removeClass("disabled");
+			
+			$.ajax({
+				type:'post',
+				url:'${pageContext.request.contextPath }/teacher_pageList',
 				dataType:'json',
 				data:{
-					"teacherId":usersid
+					"pageNumber":num,
+					"pageSize":5,
+					"realname":name
 				},
 				async:false,
 				error:function(result){
 					alert(result);
 				},
 				success:function(result){
-					var ls = result.result;
+					var dt = result.result;
 					//alert(JSON.stringify(dt));
+					if(!dt.pre){
+						$("#prev").addClass("disabled");
+					}
+					if(!dt.next){
+						$("#next").addClass("disabled");
+					}
+					$("#nowpage").val(dt.page);
+					
+					var ls = dt.list;
 					var trls;
 					for(var i = 0;i<ls.length;i++){ 
 						trls += "<tr>"+
-							"<td>"+nullToEmpty(ls[i].studentName)+"</td>"+
-							"<td>"+nullToEmpty(ls[i].className)+"</td>"+
-							"<td>"+nullToEmpty(ls[i].score)+"</td>"+
+							"<td>"+ls[i].username+"</td>"+
+							"<td>"+ls[i].password+"</td>"+
+							"<td>"+ls[i].realname+"</td>"+
+							"<td>"+ls[i].className.className+"</td>"+
+							"<td>"+ls[i].classType+"</td>"+
+							"<td>"+isTeacher(ls[i].teacherType)+"</td>"+
+							"<td>"+isStatus(ls[i].status)+"</td>"+
 							"<td>"+
-			                "<button class='btn btn-info btn-xs' onclick='edit("+ls[i].gradeId+","+ls[i].studentId+","+ls[i].score+");'>修改</button>"+
+			                "<button class='btn btn-info btn-xs' onclick='edit("+ls[i].id+");'>修改</button>"+
 			               	"</td>"+
 							"</tr>";
 					}
-					$("#dataTable tbody").append(trls);
+					$("#teachertbale tbody").append(trls);
 				}
 			});
 		}
 		
-		function edit(gradeId,studentId,score){
-			var usersid = $("#userid").val();
-			getInfo(usersid,studentId,score,gradeId);
+		function soso(){
+			var name = $("#sosoname").val();
+			getData(1,name);
+		}
+		
+		function getPrevData(){
+			var nowNum=$("#nowpage").val();
+			//alert(parseInt(nowNum)-1);
+			var preNum = parseInt(nowNum)-1;
+			var name = $("#sosoname").val();
+			getData(preNum,name);
+		}
+	
+		function getNextData(){
+			var nowNum=$("#nowpage").val();
+			//alert(parseInt(nowNum)+1);
+			var nextNum = parseInt(nowNum)+1;
+			var name = $("#sosoname").val();
+			getData(nextNum,name);
+		}
+		
+		function edit(id){
+			getInfo(id);
 			$("#myModal").modal('show');
-		} 
-		
-		function nullToEmpty(str){
-			if(str==null){
-				return ""
-			}else{
-				return str;
-			}
 		}
 		
-		function updateScore(){
-			
-			var form=$("#formdata").serialize();
-			var id=$("#formdata input[name='id']").val();
-			if(id==0 || id==null){
-				$("#myModal").modal('hide');
-				save(form);
-			}else{
-				$("#myModal").modal('hide');
-				update(form);
-			}
-		}
-		
-		function update(form){
-        	$.ajax({
-				type:'post',
-				url:'${pageContext.request.contextPath }/grade_update',
-				dataType:'json',
-				data:form,
-				async:false,
-				error:function(result){
-					alert(result);
-				},
-				success:function(result){
-					getData();
-				}
-			});
-		}
-		
-		function save(form){
-        	$.ajax({
-				type:'post',
-				url:'${pageContext.request.contextPath }/grade_save',
-				dataType:'json',
-				data:form,
-				async:false,
-				error:function(result){
-					alert(result);
-				},
-				success:function(result){
-					getData();
-				}
-			});
-		}
-		
-		function getInfo(id,studentId,score,gradeId){
+		function getInfo(id){
 			$.ajax({
 				type:'post',
 				url:'${pageContext.request.contextPath }/teacher_getId',
@@ -312,12 +348,77 @@
 				},
 				success:function(result){
 					var rs= result.result;
-					$("#formdata select[name='teacherId']").append("<option value='"+id+"'>"+rs.className.className+"</option>");
-					$("#formdata input[name='studentId']").val(studentId);
-					$("#formdata input[name='score']").val(score);
-					$("#formdata input[name='id']").val(gradeId);
+					$("#formdata input[name='id']").val(rs.id);
+					$("#formdata input[name='username']").val(rs.username);
+					$("#formdata input[name='password']").val(rs.password);
+					$("#formdata input[name='realname']").val(rs.realname);
+					$("#formdata select[name='classType']").val(rs.classType);
+					$("#formdata select[name='classNameId']").val(rs.className.id);
+					$("#formdata select[name='teacherType']").val(rs.teacherType);
+					$("#formdata select[name='status']").val(rs.status);
 				}
 			});
+		}
+		
+		function updateTeacher(){
+			var form=$("#formdata").serialize();
+			var id=$("#formdata input[name='id']").val();
+			if(id==0 || id==null){
+				$("#myModal").modal('hide');
+				save(form);
+			}else{
+				$("#myModal").modal('hide');
+				update(form);
+			}
+		}
+		
+		
+		function update(form){
+        	$.ajax({
+				type:'post',
+				url:'${pageContext.request.contextPath }/teacher_update',
+				dataType:'json',
+				data:form,
+				async:false,
+				error:function(result){
+					alert(result);
+				},
+				success:function(result){
+					getData(1,null);
+				}
+			});
+		}
+		
+		function save(form){
+        	$.ajax({
+				type:'post',
+				url:'${pageContext.request.contextPath }/teacher_save',
+				dataType:'json',
+				data:form,
+				async:false,
+				error:function(result){
+					alert(result);
+				},
+				success:function(result){
+					getData(1,null);
+				}
+			});
+		}
+		
+		function isTeacher(str){
+			if(str==0){
+				return "普通教师";
+			}else{
+				return "班主任";
+			}
+		}
+		
+		function isStatus(str){
+			if(str==0){
+				return "正常";
+			}else{
+				return "异常";
+			}
 		}
 	</script>
   

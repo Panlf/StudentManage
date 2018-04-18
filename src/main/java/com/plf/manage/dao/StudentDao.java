@@ -1,11 +1,15 @@
 package com.plf.manage.dao;
 
+import java.util.List;
+
 import com.plf.manage.domain.Student;
 
 public interface StudentDao {
 
-	Student findByUnAndPw(String username, String password);
+	public Student findByUnAndPw(String username, String password);
 
-	boolean save(Student student);
+	public boolean save(Student student);
+	
+	public List<Student> getStudentList(Integer teacherId);
 
 }

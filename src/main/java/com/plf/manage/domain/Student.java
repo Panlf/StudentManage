@@ -20,33 +20,33 @@ import javax.persistence.TemporalType;
 @Table(name="student")
 public class Student {
 	@Id
-	@Column(name="id",unique = true,nullable=false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;//主键ID
 	
-	@Column(name="number",nullable=false)
+	@Column
 	private String number;//学号
 	
-	@Column(name="realname",nullable=false)
+	@Column
 	private String realname;//真名
 	
-	@Column(name="username",nullable=false)
+	@Column
 	private String username;//网站用户名
 	
-	@Column(name="password",nullable=false)
+	@Column
 	private String password;//密码
 	
-	@Column(name="sex",nullable=false)
-	private int sex;//0 男生 1女生 2不详
+	@Column
+	private Integer sex;//0 男生 1女生 2不详
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="birthday",nullable=false)
+	@Column
 	private Date birthday;//生日
 	
+	@Column
+	private Integer classType;//班级
 	
 	public Student() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	
 	public String getNumber() {
@@ -56,11 +56,11 @@ public class Student {
 		this.number = number;
 	}
 	
-	public int getSex() {
+	public Integer getSex() {
 		return sex;
 	}
 	
-	public void setSex(int sex) {
+	public void setSex(Integer sex) {
 		this.sex = sex;
 	}
 	
@@ -98,4 +98,14 @@ public class Student {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	
+	public Integer getClassType() {
+		return classType;
+	}
+
+	public void setClassType(Integer classType) {
+		this.classType = classType;
+	}
+
 }

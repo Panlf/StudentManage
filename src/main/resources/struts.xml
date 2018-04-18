@@ -15,34 +15,42 @@
                 </interceptor-stack>
     		</interceptors>
     		
-    		<default-interceptor-ref name="myStack"></default-interceptor-ref>  
+    		<default-interceptor-ref name="myStack"></default-interceptor-ref>
     		
     		<global-allowed-methods>regex:.*</global-allowed-methods>
     		
     		<action name="student_*" class="com.plf.manage.action.LoginAction" method="{1}">
-	            <!-- <result name="success" type="json">
+	            <result name="success" type="json">
 	                <param name="root">data</param>
-	            </result> -->
-	            <result name="success">
-	            	/index.jsp
 	            </result>
-	            <result name="registered">
-	            	/login.jsp
-	            </result>
-	            <result name="register">
-	            	/register.jsp
-	            </result>
-	            <result name="input">
-	            	/login.jsp
+	            
+	            <result name="quit" type="redirect">login.jsp</result>
+        	</action>
+        	
+        	<action name="classname_*" class="com.plf.manage.action.ClassNameAction" method="{1}">
+	            <result name="success" type="json">
+	                <param name="root">data</param>
 	            </result>
         	</action>
+        	
+        	<action name="teacher_*" class="com.plf.manage.action.TeacherAction" method="{1}">
+	            <result name="success" type="json">
+	                <param name="root">data</param>
+	            </result>
+        	</action>
+        	
+        	<action name="grade_*" class="com.plf.manage.action.GradeAction" method="{1}">
+	            <result name="success" type="json">
+	                <param name="root">data</param>
+	            </result>
+        	</action>
+        	
+        	<action name="manage_*" class="com.plf.manage.action.ManageAction" method="{1}">
+	            <result name="success" type="json">
+	                <param name="root">data</param>
+	            </result>
+	            <result name="quit" type="redirect">AdminLogin.jsp</result>
+        	</action>
+        	
     	</package>
-    	<!--<package name="myPackage" extends="struts-default" namespace="/">
-    		<global-allowed-methods>regex:.*</global-allowed-methods>
-    		<action name="login">
-	            <result>
-	                /index.jsp
-	            </result>
-        	</action>
-    	</package>  -->
     </struts>

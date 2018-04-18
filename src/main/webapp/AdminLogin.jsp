@@ -36,33 +36,14 @@
 	  	<div class="container">
 	  	
 		      <form class="form-login" id="formdata">
-		        <h2 class="form-login-heading">登录</h2>
+		        <h2 class="form-login-heading">管理员登录</h2>
 		        <div class="login-wrap">
-		         	<div class="form-group">
-		            	<input type="text" class="form-control" placeholder="用户名" name="username" autofocus>
-		            </div>
-		            <div class="form-group">
-		            	<input type="password" class="form-control" placeholder="密码" name="password">
-		            </div>
-		           	<div class="form-group">
-			            <label class="radio-inline">
-			            	<input type="radio" value="0" name="usertype">教师
-			            </label>
-			            <label class="radio-inline">
-			            	<input type="radio" value="1" name="usertype">学生
-			            </label>
-		            </div>
+		            <input type="text" class="form-control" placeholder="用户名" name="username" autofocus>
+		            <br>
+		            <input type="password" class="form-control" placeholder="密码" name="password">
+		            <label class="checkbox">
+		            </label>
 		            <button class="btn btn-theme btn-block" onclick="loginUser();"><i class="fa fa-lock"></i> 登录</button>
-		            <hr>
-		            
-		           
-		            <div class="registration">
-		                	还没有账户吗?<br/>
-		                <a class="" href="register.jsp">
-		                  		  新建账户
-		                </a>
-		            </div>
-		
 		        </div>
 		      </form>	  	
 	  	
@@ -81,18 +62,9 @@
         
         function loginUser(){
         	var form=$("#formdata").serialize();
-        	var a = $("input[name='usertype']:checked").val();
-        	var url="";
-        	if(a==1){
-        		url = '${pageContext.request.contextPath }/student_login';
-        	}else if(a==0){
-        		url = '${pageContext.request.contextPath }/teacher_login';
-        	}else{
-        		window.location.reload();
-        	}
         	$.ajax({
 				type:'post',
-				url:url,
+				url:'${pageContext.request.contextPath }/manage_login',
 				dataType:'json',
 				data:form,
 				async:false,
@@ -101,13 +73,8 @@
 				},
 				success:function(result){
 					if(result.code==1){
-						if(a==0){
-							window.location.href="index.jsp";
-							window.event.returnValue=false;
-						}else{
-							window.location.href="LookScore.jsp";
-							window.event.returnValue=false;
-						}
+						window.location.href="AdminClass.jsp";
+						window.event.returnValue=false;
 					}else{
 						window.location.reload();
 					}
