@@ -85,7 +85,6 @@ public class GradeDaoImpl implements GradeDao {
 			List<MyScoreDto> ls = new ArrayList<MyScoreDto>();
 			for(int i=0;i<list.size();i++){
 				MyScoreDto c = new MyScoreDto();
-				
 					try {
 						BeanUtils.populate(c, list.get(i));
 					} catch (IllegalAccessException | InvocationTargetException e) {
